@@ -22,7 +22,9 @@ const Service = {
     },
 
     getOrder(id){
-        return id !== undefined && db.data.orders.find(record=>record.id == id) || db.data.orders
+        if(id!==undefined)
+            return db.data.orders.find(record=> record.id == id)
+        return db.data.orders
     }
 }
 module.exports = Service

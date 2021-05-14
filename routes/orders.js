@@ -12,7 +12,8 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
   
     const order = OrderService.getOrder(req.params['id'])
-    if(order.length)
+    
+    if(order)
       return res.status(200).send(order)
     return res.status(400).send('Order not found.')
 });
