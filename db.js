@@ -28,13 +28,18 @@ const saveOrder = ({order,plants})=>{
     plants.forEach(plant=>{
         total += order.plants.find(orderPlant=>orderPlant.id === plant.id).quantity * plant.price
     })
-
+    
     for(const orderItem of order.plants){
-        const inventoryRecord = data.inventory.find(record=>{
-            return record.plant_id = orderItem.id
+        
+        const inventoryRecord = data.inventory.filter(record => {
+            console.log('record', record, 'item', orderItem)
+            return record.plant_id == orderItem.id
         })
         
-        inventoryRecord.quantity -= orderItem.quantity
+        if(inventoryRecord.length>0){
+            inventoryRecord[0].quantity -= orderItem.quantity
+        }
+        
     }
     
     data.orders.push(
@@ -51,26 +56,26 @@ const saveOrder = ({order,plants})=>{
         }
     )
 }
-
+let id = 2
 const migration = ()=>{
     //create plants
     for(let i=0; i<50; i++){
         data.plants.push({
-            id: faker.datatype.uuid(),
+            id: `${id++}`,
             name: faker.vehicle.vehicle(),
             scientific_name: faker.vehicle.model()
         })
     }
     //create inventory
-    for(let i=0; i<20; i++){
+    // for(let i=0; i<20; i++){
         for(const plant of data.plants){
             data.inventory.push({
-                plant_id: plant.id,
+                plant_id: `${plant.id}`,
                 quantity: faker.datatype.number(50),
                 price: faker.commerce.price(), 
             })        
         }
-    }
+    // }
 }
 
 module.exports= {migration, data, saveOrder}
