@@ -7,11 +7,13 @@ const Service = {
         const plants = PlantService.getPlants(order.plants.map(plant=>plant.id))
         
         const unavailable = order.plants.reduce((a,item)=>{
-            if(!plants.find(plant=> plant.id == item.id)){
+            if(!plants.find(plant=> {return plant.id == item.id && plant.quantity >= item.quantity})){
                 a.push(item)
             }
             return a
         },[])
+        
+        // console.log(unavailable)
 
         //abort
         if(unavailable.length >0)

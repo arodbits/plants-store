@@ -9,7 +9,7 @@ const Service = {
             }
             return inventory.quantity > 0
         })
-
+        console.log(available_plants)
         const plantIds = available_plants.reduce((ob, item)=>{
             ob[item.plant_id] = item
             return ob
